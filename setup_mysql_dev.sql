@@ -1,9 +1,7 @@
---setting MySQL setup for development
--- scripts that prepare mysql server fpr the project
-
-CREATE DATABASE IF NOT EXISTS `hbnb_dev_db`;
-CREATE USER IF NOT EXISTS `hbnb_dev`@'localhost' IDENTIFIED BY `hbnb_dev_pwd`;
-USE hbnb_dev_db;
-GRANT ALL PREVILEGES ON hbnb_dev_db.* To 'hbnb_dev'@'localhost';
-GRANT SELECT PREVILIGES ON performance_schema.* To 'hbnb_dev'@'localhost';
-FLUSH PRIVILEGES;
+-- Script to create a MySQL server with the database hbnb_dev_db.
+CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
+CREATE USER IF NOT EXISTS 'hbnb_dev'@'localhost';
+SET PASSWORD FOR 'hbnb_dev'@'localhost' = 'hbnb_dev_pwd';
+GRANT USAGE ON *.* TO 'hbnb_dev'@'localhost';
+GRANT SELECT ON `performance_schema`.* TO 'hbnb_dev'@'localhost';
+GRANT ALL PRIVILEGES ON `hbnb_dev_db`.* TO 'hbnb_dev'@'localhost';
