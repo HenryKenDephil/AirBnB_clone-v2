@@ -1,21 +1,18 @@
 #!/usr/bin/env bash
-# automated configuration of web server for web static
-
-# install nginx if it doesn't exist
-if ! command -v nginx &> /dev/null
-then
-    sudo apt-get -y update
-    sudo apt-get install nginx -y
-fi
-
-mkdir -p /data/web_static/{releases/test,shared}
-
-echo "<p>Test<p>" > /data/web_static/releases/test/index.html
-
-ln -sf /data/web_static/releases/test /data/web_static/current
-
+# Setup a web servers for the deployment of web_static.
+apt update -y
+apt install -y nginx
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+echo "<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <p>Nginx server test</p>
+  </body>
+</html>" | tee /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown -R ubuntu:ubuntu /data
-
-sed -i '53i\\tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}' /etc/nginx/sites-available/default
-
-service nginx restart
+sudo sed -i '39 i\ \tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}\n' /etc/nginx/sites-enabled/default
+sudo service nginx restart

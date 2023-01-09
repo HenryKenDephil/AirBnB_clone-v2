@@ -1,16 +1,15 @@
 #!/usr/bin/python3
-#a script to start a Flask web application
-
+''' starts my first flask web application '''
 from flask import Flask
 
-app = Flask(_name_)
+app = Flask(__name__)
+
 
 @app.route('/', strict_slashes=False)
-def hello_hbnb():
-    #returns hello hbnb!
-    return "Hello HBNB!"
-    
-if __name__ == "__main__":
-    "running flask web"
-    app.run(host='0.0.0.0', port=5000)
+def hello_route():
+    ''' returns text below on call '''
+    return 'Hello HBNB!'
 
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

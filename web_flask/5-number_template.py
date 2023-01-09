@@ -1,41 +1,65 @@
 #!/usr/bin/python3
-#script to returns html template if n is a number
+''' starts a Flask web application '''
+from flask import Flask, render_template
 
-from flask import Flask
+app = Flask(__name__)
 
-app = Flask(_name_)
+
 @app.route('/', strict_slashes=False)
 def hello_hbnb():
-    "displays the message, hello hbnb"
-    return "Hello HBNB"
+    '''
+    displays "Hello HBNB!" for route: /
+    '''
+    return 'Hello HBNB!'
+
 
 @app.route('/hbnb', strict_slashes=False)
-def hbnb():
-    """ displays 'HBNB' """
+def hello():
+    '''
+    displays "HBNB" for route: /hbnb
+    '''
     return 'HBNB'
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def c():
-    "returns c is fun and replaces underscore"
-    return 'c %s' % text.replace('_', '')
+def c_is_fun(text):
+    '''
+    - displays "C" followed by value of the text variable
+    - replaces underscore "_" with a space " "
+    '''
+    return 'C ' + text.replace('_', ' ')
 
-@app.route('/python/(<text>)' strict_slashes=False)
-def python():
-    "display python"
-    return 'python %s' % text.replace('_', 'is cool')
+
+@app.route('/python/', strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
+def python_is_cool(text='is_cool'):
+    '''
+    - displays "Python" followed by the value of the text
+    - replaces underscore "_" with a space " "
+    - displays default value if route is /python/
+    '''
+    return 'Python ' + text.replace('_', ' ')
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
-def /number/<n>():
-    "returning n is a number if it's an integer"
-        return '{} is a number'.format(n)
+def display_number(n):
+    '''
+    - displays "<n> is a number" only if n is an integer
+    '''
+    return '{} is a number'.format(n)
+
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
-def number(n):
-    "returns html page if n is an integer"
-    return render_template(5-number.html, value=n)
-    
-if __name__ == "__main__":
-    "starting flask web"
+def number_template(n):
+    '''
+    - displays a HTML page only if n is an integer
+
+    format:
+    - "Number: n" inside body tag
+    '''
+    return render_template('5-number.html', value=n)
+
+
+if __name__ == '__main__':
+    ''' main function '''
     app.run(host='0.0.0.0', port=5000)

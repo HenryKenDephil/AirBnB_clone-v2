@@ -1,17 +1,32 @@
 #!/usr/bin/python3
-"""This module defines a class User"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from models import storage_type
+from uuid import uuid4
 
 
 class User(BaseModel, Base):
-    """This class defines a user by various attributes"""
+    ''' defines User class '''
     __tablename__ = 'users'
+    if storage_type == 'db':
+        email = Column(String(128), nullable=False)
+        password = Column(String(128), nullable=False)
+        first_name = Column(String(128), nullable=True)
+        last_name = Column(String(128), nullable=True)
 
-    email = Column(String(128), nullable=False)
-    password = Column(String(128), nullable=False)
-    first_name = Column(String(128))
-    last_name = Column(String(128))
-    places = relationship('Place', backref='user', cascade='delete')
-    reviews = relationship('Review', backref='user', cascade='delete')
+        places = relationship('Place', backref='user',
+                              cascade='all, delete, delete-orphan')
+
+        reviews = relationship('Review', backref='user',
+                               cascade='all, delete, delete-orphan')
+
+        def __init__(self, **kwargs):
+            self.id = str(uuid4())
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+    else:
+        email = ""
+        password = ""
+        first_name = ""
+        last_name = ""
