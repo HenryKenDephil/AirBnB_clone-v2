@@ -1,46 +1,38 @@
 #!/usr/bin/python3
-''' starts a Flask web application '''
-from flask import Flask
+"""starts a Flask web application"""
 
+from flask import Flask
 app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
 def hello_hbnb():
-    '''
-    displays "Hello HBNB!" for route: /
-    '''
+    """displays a string at / route."""
     return 'Hello HBNB!'
 
 
 @app.route('/hbnb', strict_slashes=False)
-def hello():
-    '''
-    displays "HBNB" for route: /hbnb
-    '''
+def hbnb():
+    """displays a string at /hbnb route."""
     return 'HBNB'
 
 
 @app.route('/c/<text>', strict_slashes=False)
 def c_is_fun(text):
-    '''
-    - displays "C" followed by value of the text variable
-    - replaces underscore "_" with a space " "
-    '''
-    return 'C ' + text.replace('_', ' ')
+    """displays "C" followed by the value
+    of the text variable at /c/<text> route."""
+    new = text.replace('_', ' ')
+    return 'C %s' % new
 
 
-@app.route('/python/', strict_slashes=False)
+@app.route('/python', defaults={'text': 'is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python_is_cool(text='is_cool'):
-    '''
-    - displays "Python" followed by the value of the text
-    - replaces underscore "_" with a space " "
-    - displays default value if route is /python/
-    '''
-    return 'Python ' + text.replace('_', ' ')
+def python(text):
+    """displays "Python", followed by the value
+    of the text variable at /python/(<text>) route."""
+    new = text.replace('_', ' ')
+    return 'Python %s' % new
 
 
-if __name__ == '__main__':
-    ''' main function '''
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
